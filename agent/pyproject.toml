@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "crypto"
+version = "0.1.0"
+description = "Langgraph agent for crypto talks"
+authors = ["ChiragAgg5k <chiragaggarwal5k@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+langgraph = "^0.2.56"
+langchain = "^0.3.10"
+pycoingecko = "^3.2.0"
+langchain-openai = "^0.2.11"
+python-dotenv = "^1.0.1"
+langchain-groq = "^0.2.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
