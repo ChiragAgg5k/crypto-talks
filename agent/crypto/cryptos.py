@@ -7,7 +7,7 @@ from langchain_core.runnables import RunnableConfig
 from langchain_core.tools import tool
 
 
-async def cryptos_node(state: AgentState, config: RunnableConfig):  # pylint: disable=unused-argument
+async def cryptos_node(state: AgentState, config: RunnableConfig):
     """
     Lets the user know about the operations about to be performed on cryptocurrencies.
     """
