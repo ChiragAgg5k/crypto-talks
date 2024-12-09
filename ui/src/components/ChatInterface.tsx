@@ -3,9 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SendIcon } from "lucide-react";
 
-export const ChatInterface = () => {
+interface ChatInterfaceProps {
+  initialMessage?: string;
+}
+
+export const ChatInterface = ({ initialMessage = "Ask me anything about cryptocurrencies!" }: ChatInterfaceProps) => {
   const [messages, setMessages] = useState<Array<{ text: string; isUser: boolean }>>([
-    { text: "Ask me anything about cryptocurrencies!", isUser: false },
+    { text: initialMessage, isUser: false },
   ]);
   const [input, setInput] = useState("");
 
