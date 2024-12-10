@@ -1,5 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "./ui/accordion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Skeleton } from "./ui/skeleton";
 import { useState } from "react";
@@ -21,12 +26,16 @@ export const CryptoNews = () => {
   const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const { data: news, isLoading, error } = useQuery({
+  const {
+    data: news,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["crypto-news"],
     queryFn: async () => {
       console.log("Fetching crypto news...");
       const response = await fetch(
-        "https://min-api.cryptocompare.com/data/v2/news/?lang=EN&sortOrder=popular"
+        "https://min-api.cryptocompare.com/data/v2/news/?lang=EN&sortOrder=popular",
       );
       const data = await response.json();
       return data.Data as NewsItem[];

@@ -35,7 +35,8 @@ export const PortfolioManager = () => {
   });
 
   const mutation = useMutation({
-    mutationFn: (newHoldings: Holding[]) => saveHoldings(user.$id, { holdings: newHoldings }),
+    mutationFn: (newHoldings: Holding[]) =>
+      saveHoldings(user.$id, { holdings: newHoldings }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["holdings"] });
       toast({
@@ -57,7 +58,11 @@ export const PortfolioManager = () => {
     setHoldings([...holdings, { coinId: "", amount: 0 }]);
   };
 
-  const updateHolding = (index: number, field: keyof Holding, value: string | number) => {
+  const updateHolding = (
+    index: number,
+    field: keyof Holding,
+    value: string | number,
+  ) => {
     const newHoldings = [...holdings];
     newHoldings[index] = {
       ...newHoldings[index],
@@ -75,7 +80,9 @@ export const PortfolioManager = () => {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="glass-card border-none sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="text-white">Your Crypto Portfolio</DialogTitle>
+          <DialogTitle className="text-white">
+            Your Crypto Portfolio
+          </DialogTitle>
           <DialogDescription className="text-crypto-gray">
             Enter your cryptocurrency holdings below
           </DialogDescription>
@@ -91,7 +98,9 @@ export const PortfolioManager = () => {
                   <Input
                     id={`coin-${index}`}
                     value={holding.coinId}
-                    onChange={(e) => updateHolding(index, "coinId", e.target.value)}
+                    onChange={(e) =>
+                      updateHolding(index, "coinId", e.target.value)
+                    }
                     className="bg-crypto-card/30 border-white/10 text-white"
                   />
                 </div>
@@ -103,7 +112,9 @@ export const PortfolioManager = () => {
                     id={`amount-${index}`}
                     type="number"
                     value={holding.amount}
-                    onChange={(e) => updateHolding(index, "amount", parseFloat(e.target.value))}
+                    onChange={(e) =>
+                      updateHolding(index, "amount", parseFloat(e.target.value))
+                    }
                     className="bg-crypto-card/30 border-white/10 text-white"
                   />
                 </div>
@@ -119,7 +130,10 @@ export const PortfolioManager = () => {
             >
               Add Another Coin
             </Button>
-            <Button type="submit" className="bg-crypto-purple hover:bg-crypto-accent">
+            <Button
+              type="submit"
+              className="bg-crypto-purple hover:bg-crypto-accent"
+            >
               Save Portfolio
             </Button>
           </div>
@@ -127,7 +141,9 @@ export const PortfolioManager = () => {
 
         {existingHoldings && existingHoldings.length > 0 && (
           <div className="mt-6 space-y-4">
-            <h3 className="text-lg font-semibold text-white">Current Holdings</h3>
+            <h3 className="text-lg font-semibold text-white">
+              Current Holdings
+            </h3>
             <div className="space-y-2">
               {existingHoldings.map((holding: any, index: number) => (
                 <div

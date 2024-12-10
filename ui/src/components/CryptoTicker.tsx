@@ -13,7 +13,7 @@ export const CryptoTicker = () => {
     queryKey: ["trending-coins"],
     queryFn: async () => {
       const response = await fetch(
-        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=5&sparkline=false"
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=5&sparkline=false",
       );
       return response.json() as Promise<Coin[]>;
     },
@@ -27,10 +27,14 @@ export const CryptoTicker = () => {
           className="glass-card px-4 py-2 flex items-center gap-2 min-w-[200px]"
         >
           <span className="text-sm font-medium uppercase">{coin.symbol}</span>
-          <span className="text-sm">${coin.current_price.toLocaleString()}</span>
+          <span className="text-sm">
+            ${coin.current_price.toLocaleString()}
+          </span>
           <span
             className={`text-xs flex items-center ${
-              coin.price_change_percentage_24h >= 0 ? "text-green-500" : "text-red-500"
+              coin.price_change_percentage_24h >= 0
+                ? "text-green-500"
+                : "text-red-500"
             }`}
           >
             {coin.price_change_percentage_24h >= 0 ? (

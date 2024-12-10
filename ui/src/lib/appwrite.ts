@@ -10,7 +10,11 @@ const databases = new Databases(client);
 const DATABASE_ID = "crypto_portfolio"; // Create this in Appwrite console
 const COLLECTION_ID = "holdings"; // Create this in Appwrite console
 
-export const createAccount = async (email: string, password: string, name: string) => {
+export const createAccount = async (
+  email: string,
+  password: string,
+  name: string,
+) => {
   try {
     const response = await account.create(ID.unique(), email, password, name);
     await login(email, password);
@@ -60,7 +64,7 @@ export const saveHoldings = async (userId: string, holdings: any) => {
         user_id: userId,
         ...holdings,
         created_at: new Date().toISOString(),
-      }
+      },
     );
   } catch (error) {
     console.error("Error saving holdings:", error);
@@ -70,11 +74,9 @@ export const saveHoldings = async (userId: string, holdings: any) => {
 
 export const getHoldings = async (userId: string) => {
   try {
-    const response = await databases.listDocuments(
-      DATABASE_ID,
-      COLLECTION_ID,
-      [databases.createQuery().equal("user_id", userId)]
-    );
+    const response = await databases.listDocuments(DATABASE_ID, COLLECTION_ID, [
+      databases.createQuery().equal("user_id", userId),
+    ]);
     return response.documents;
   } catch (error) {
     console.error("Error getting holdings:", error);

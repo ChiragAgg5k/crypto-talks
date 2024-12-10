@@ -32,7 +32,9 @@
   }
   body {
     @apply bg-crypto-dark text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
   }
 }
 
@@ -47,7 +49,8 @@
 
 /* Enhanced animations */
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {

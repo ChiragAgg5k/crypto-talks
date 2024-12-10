@@ -1,7 +1,4 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -10,8 +7,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { createAccount, login } from "@/lib/appwrite";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
+import { createAccount, login } from "@/lib/appwrite";
+import { useState } from "react";
 import { PortfolioManager } from "./PortfolioManager";
 
 export const AuthDialog = () => {
@@ -54,13 +54,18 @@ export const AuthDialog = () => {
     <>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-          <Button variant="outline" className="bg-crypto-card/30 hover:bg-crypto-card/40 border-white/10">
+          <Button
+            variant="outline"
+            className="bg-crypto-card/30 hover:bg-crypto-card/40 border-white/10"
+          >
             Sign {isLogin ? "In" : "Up"}
           </Button>
         </DialogTrigger>
-        <DialogContent className="glass-card border-none sm:max-w-[425px]">
+        <DialogContent className="border sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle className="text-white">{isLogin ? "Sign In" : "Create Account"}</DialogTitle>
+            <DialogTitle className="text-white">
+              {isLogin ? "Sign In" : "Create Account"}
+            </DialogTitle>
             <DialogDescription className="text-crypto-gray">
               {isLogin
                 ? "Enter your credentials to sign in"
@@ -70,7 +75,9 @@ export const AuthDialog = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             {!isLogin && (
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-white">Name</Label>
+                <Label htmlFor="name" className="text-white">
+                  Name
+                </Label>
                 <Input
                   id="name"
                   value={name}
@@ -81,7 +88,9 @@ export const AuthDialog = () => {
               </div>
             )}
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-white">Email</Label>
+              <Label htmlFor="email" className="text-white">
+                Email
+              </Label>
               <Input
                 id="email"
                 type="email"
@@ -92,7 +101,9 @@ export const AuthDialog = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-white">Password</Label>
+              <Label htmlFor="password" className="text-white">
+                Password
+              </Label>
               <Input
                 id="password"
                 type="password"
@@ -102,7 +113,10 @@ export const AuthDialog = () => {
               />
             </div>
             <div className="flex flex-col space-y-4">
-              <Button type="submit" className="bg-crypto-purple hover:bg-crypto-accent">
+              <Button
+                type="submit"
+                className="bg-crypto-purple hover:bg-crypto-accent"
+              >
                 {isLogin ? "Sign In" : "Create Account"}
               </Button>
               <Button

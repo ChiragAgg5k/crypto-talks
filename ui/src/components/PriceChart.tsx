@@ -1,7 +1,20 @@
 import React, { useState } from "react";
-import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import {
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 import { cn } from "@/lib/utils";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 import { useQuery } from "@tanstack/react-query";
 import { useToast } from "./ui/use-toast";
 
@@ -27,10 +40,10 @@ export const PriceChart = ({ className }: PriceChartProps) => {
       console.log(`Fetching price history for ${selectedCoin}...`);
       try {
         const response = await fetch(
-          `https://api.coingecko.com/api/v3/coins/${selectedCoin}/market_chart?vs_currency=usd&days=30&interval=daily`
+          `https://api.coingecko.com/api/v3/coins/${selectedCoin}/market_chart?vs_currency=usd&days=30&interval=daily`,
         );
         if (!response.ok) {
-          throw new Error('Failed to fetch coin data');
+          throw new Error("Failed to fetch coin data");
         }
         const data = await response.json();
         return data.prices.map((item: [number, number]) => ({
@@ -38,7 +51,7 @@ export const PriceChart = ({ className }: PriceChartProps) => {
           price: item[1],
         }));
       } catch (error) {
-        console.error('Error fetching coin data:', error);
+        console.error("Error fetching coin data:", error);
         toast({
           title: "Error",
           description: "Could not fetch coin data. Please try again later.",
@@ -66,7 +79,7 @@ export const PriceChart = ({ className }: PriceChartProps) => {
           </SelectContent>
         </Select>
       </div>
-      
+
       <div className="h-[320px]">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data}>

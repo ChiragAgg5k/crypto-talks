@@ -7,18 +7,20 @@ interface ChatInterfaceProps {
   initialMessage?: string;
 }
 
-export const ChatInterface = ({ initialMessage = "Ask me anything about cryptocurrencies!" }: ChatInterfaceProps) => {
-  const [messages, setMessages] = useState<Array<{ text: string; isUser: boolean }>>([
-    { text: initialMessage, isUser: false },
-  ]);
+export const ChatInterface = ({
+  initialMessage = "Ask me anything about cryptocurrencies!",
+}: ChatInterfaceProps) => {
+  const [messages, setMessages] = useState<
+    Array<{ text: string; isUser: boolean }>
+  >([{ text: initialMessage, isUser: false }]);
   const [input, setInput] = useState("");
 
   const handleSend = () => {
     if (!input.trim()) return;
-    
+
     setMessages((prev) => [...prev, { text: input, isUser: true }]);
     setInput("");
-    
+
     // Simulate AI response
     setTimeout(() => {
       setMessages((prev) => [
