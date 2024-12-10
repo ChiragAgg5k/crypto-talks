@@ -20,7 +20,7 @@ export const CryptoTicker = () => {
   });
 
   return (
-    <div className="flex gap-4 overflow-x-auto py-2 animate-fade-in items-center justify-center">
+    <div className="flex gap-4 overflow-x-auto py-2 animate-fade-in">
       {coins?.map((coin) => (
         <div
           key={coin.id}

@@ -20,7 +20,7 @@ export const CoinDialog = ({ coin, open, onOpenChange }: CoinDialogProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-crypto-dark border-white/10 text-white max-w-4xl">
+      <DialogContent className="glass-card border-none text-white max-w-4xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3">
             <img src={coin.image} alt={coin.name} className="w-8 h-8" />

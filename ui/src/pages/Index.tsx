@@ -1,10 +1,14 @@
-import { ChatInterface } from "@/components/ChatInterface";
-import { CryptoNews } from "@/components/CryptoNews";
 import { CryptoTicker } from "@/components/CryptoTicker";
-import { FeaturedCoins } from "@/components/FeaturedCoins";
 import { PriceChart } from "@/components/PriceChart";
+import { ChatInterface } from "@/components/ChatInterface";
+import { FeaturedCoins } from "@/components/FeaturedCoins";
+import { CryptoNews } from "@/components/CryptoNews";
+import { AuthDialog } from "@/components/AuthDialog";
+import { useAuth } from "@/App";
 
 const Index = () => {
+  const { user } = useAuth();
+
   return (
     <div className="min-h-screen bg-crypto-dark text-white relative overflow-hidden">
       {/* Animated Background Pattern */}
@@ -13,14 +17,20 @@ const Index = () => {
         <div className="absolute top-1/4 right-0 w-72 h-72 bg-crypto-accent blur-[120px] animate-pulse opacity-30 [animation-delay:1000ms]" />
         <div className="absolute bottom-0 left-1/3 w-72 h-72 bg-crypto-purple blur-[120px] animate-pulse opacity-30 [animation-delay:2000ms]" />
         
+        {/* Grid Pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,black,transparent)]" />
       </div>
 
       <div className="container py-8 space-y-12 relative z-10">
+        {/* Auth Button in Header */}
+        <div className="flex justify-end">
+          <AuthDialog />
+        </div>
+
         {/* Enhanced Hero Section */}
         <div className="relative text-center space-y-6 py-16">
           {/* Background gradient effect */}
-          {/* <div className="absolute inset-0 bg-gradient-to-r from-crypto-purple/10 to-crypto-accent/10 blur-3xl -z-10" /> */}
+          <div className="absolute inset-0 bg-gradient-to-r from-crypto-purple/10 to-crypto-accent/10 blur-3xl -z-10" />
           
           {/* Animated title */}
           <h1 
@@ -76,6 +86,48 @@ const Index = () => {
           </h2>
           <CryptoNews />
         </div>
+
+        {/* Footer Section */}
+        <footer className="mt-24 glass-card p-8 animate-fade-up [animation-delay:1400ms]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-left">
+              <h3 className="text-lg font-semibold crypto-gradient bg-clip-text text-transparent mb-4">
+                Crypto Talks
+              </h3>
+              <p className="text-sm text-crypto-gray">
+                Your AI-powered crypto companion for real-time insights and market analysis.
+              </p>
+            </div>
+            
+            <div className="text-left">
+              <h4 className="text-sm font-semibold mb-4">Quick Links</h4>
+              <ul className="space-y-2 text-sm text-crypto-gray">
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">Market Analysis</a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">News</a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">Chat</a>
+                </li>
+              </ul>
+            </div>
+            
+            <div className="text-left">
+              <h4 className="text-sm font-semibold mb-4">Connect</h4>
+              <div className="flex space-x-4 text-crypto-gray">
+                <a href="#" className="hover:text-white transition-colors">Twitter</a>
+                <a href="#" className="hover:text-white transition-colors">Discord</a>
+                <a href="#" className="hover:text-white transition-colors">GitHub</a>
+              </div>
+            </div>
+          </div>
+          
+          <div className="mt-8 pt-8 border-t border-white/10 text-center text-sm text-crypto-gray">
+            <p>© {new Date().getFullYear()} Crypto Talks. All rights reserved.</p>
+          </div>
+        </footer>
       </div>
     </div>
   );
