@@ -1,14 +1,15 @@
-import { Account, Client, Databases, ID } from "appwrite";
+import { Holding } from "@/components/PortfolioManager";
+import { Account, Client, Databases, ID, Query } from "appwrite";
 
 const client = new Client()
   .setEndpoint("https://cloud.appwrite.io/v1")
-  .setProject("YOUR_PROJECT_ID");
+  .setProject(import.meta.env.VITE_APPWRITE_PROJECT_ID);
 
 const account = new Account(client);
 const databases = new Databases(client);
 
-const DATABASE_ID = "crypto_portfolio"; // Create this in Appwrite console
-const COLLECTION_ID = "holdings"; // Create this in Appwrite console
+const DATABASE_ID = "crypto_portfolio";
+const COLLECTION_ID = "users";
 
 export const createAccount = async (
   email: string,
@@ -27,7 +28,7 @@ export const createAccount = async (
 
 export const login = async (email: string, password: string) => {
   try {
-    const session = await account.createSession(email, password);
+    const session = await account.createEmailPasswordSession(email, password);
     return session;
   } catch (error) {
     console.error("Error logging in:", error);
@@ -54,18 +55,13 @@ export const logout = async () => {
   }
 };
 
-export const saveHoldings = async (userId: string, holdings: any) => {
+export const saveHoldings = async (userId: string, holdings: Holding[]) => {
   try {
-    return await databases.createDocument(
-      DATABASE_ID,
-      COLLECTION_ID,
-      ID.unique(),
-      {
-        user_id: userId,
-        ...holdings,
-        created_at: new Date().toISOString(),
-      },
-    );
+    await databases.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(), {
+      user_id: userId,
+      holdings: holdings,
+      created_at: new Date().toISOString(),
+    });
   } catch (error) {
     console.error("Error saving holdings:", error);
     throw error;
@@ -75,7 +71,7 @@ export const saveHoldings = async (userId: string, holdings: any) => {
 export const getHoldings = async (userId: string) => {
   try {
     const response = await databases.listDocuments(DATABASE_ID, COLLECTION_ID, [
-      databases.createQuery().equal("user_id", userId),
+      Query.equal("user_id", userId),
     ]);
     return response.documents;
   } catch (error) {

@@ -1,20 +1,21 @@
-import { useState } from "react";
 import { useAuth } from "@/App";
-import { saveHoldings, getHoldings } from "@/lib/appwrite";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useToast } from "@/components/ui/use-toast";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
+import { getHoldings, saveHoldings } from "@/lib/appwrite";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 
-interface Holding {
+export interface Holding {
   coinId: string;
   amount: number;
 }
@@ -23,7 +24,7 @@ export const PortfolioManager = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [holdings, setHoldings] = useState<Holding[]>([
     { coinId: "", amount: 0 },
   ]);
@@ -35,8 +36,7 @@ export const PortfolioManager = () => {
   });
 
   const mutation = useMutation({
-    mutationFn: (newHoldings: Holding[]) =>
-      saveHoldings(user.$id, { holdings: newHoldings }),
+    mutationFn: (newHoldings: Holding[]) => saveHoldings(user.$id, newHoldings),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["holdings"] });
       toast({
@@ -78,6 +78,14 @@ export const PortfolioManager = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <Button
+          variant="outline"
+          className="bg-crypto-card/30 hover:bg-crypto-card/40 border-white/10"
+        >
+          Manage Portfolio
+        </Button>
+      </DialogTrigger>
       <DialogContent className="glass-card border-none sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="text-white">
@@ -101,7 +109,7 @@ export const PortfolioManager = () => {
                     onChange={(e) =>
                       updateHolding(index, "coinId", e.target.value)
                     }
-                    className="bg-crypto-card/30 border-white/10 text-white"
+                    className="bg-crypto-card/30 border-white/10 text-white mt-2"
                   />
                 </div>
                 <div>
@@ -115,7 +123,7 @@ export const PortfolioManager = () => {
                     onChange={(e) =>
                       updateHolding(index, "amount", parseFloat(e.target.value))
                     }
-                    className="bg-crypto-card/30 border-white/10 text-white"
+                    className="bg-crypto-card/30 border-white/10 text-white mt-2"
                   />
                 </div>
               </div>

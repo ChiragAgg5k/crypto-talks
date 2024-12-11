@@ -25,7 +25,10 @@ export const ChatInterface = ({
     setTimeout(() => {
       setMessages((prev) => [
         ...prev,
-        { text: "Bitcoin's latest price is $95,499. It fell down from an average of $100,000, but looks like it's recovering. It's been a volatile week, but overall, it's still up 10% from last month.", isUser: false },
+        {
+          text: "Bitcoin's latest price is $95,499. It fell down from an average of $100,000, but looks like it's recovering. It's been a volatile week, but overall, it's still up 10% from last month.",
+          isUser: false,
+        },
       ]);
     }, 1000);
   };
