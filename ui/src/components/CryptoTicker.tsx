@@ -8,12 +8,19 @@ interface Coin {
   price_change_percentage_24h: number;
 }
 
+const API_KEY = import.meta.env.VITE_COINGECKO_API_KEY;
+
 export const CryptoTicker = () => {
   const { data: coins } = useQuery({
     queryKey: ["trending-coins"],
     queryFn: async () => {
       const response = await fetch(
         "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=5&sparkline=false",
+        {
+          headers: {
+            "x-cg-demo-api-key": API_KEY,
+          },
+        },
       );
       return response.json() as Promise<Coin[]>;
     },

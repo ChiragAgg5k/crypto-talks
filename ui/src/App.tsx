@@ -1,15 +1,17 @@
-import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { CopilotKit } from "@copilotkit/react-core";
+import { CopilotPopup } from "@copilotkit/react-ui";
+import "@copilotkit/react-ui/styles.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { createContext, useContext, useEffect, useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { getCurrentUser } from "./lib/appwrite";
 import Index from "./pages/Index";
 
 const queryClient = new QueryClient();
 
-// Create authentication context
 export const AuthContext = createContext<{
   user: any;
   loading: boolean;
@@ -45,11 +47,22 @@ const App = () => {
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-            </Routes>
-          </BrowserRouter>
+          <CopilotKit runtimeUrl="/api/copilotkit">
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Index />} />
+              </Routes>
+            </BrowserRouter>
+            <CopilotPopup
+              instructions={
+                "You are assisting the user as best as you can. Answer in the best way possible given the data you have."
+              }
+              labels={{
+                title: "Popup Assistant",
+                initial: "Need any help?",
+              }}
+            />
+          </CopilotKit>
         </TooltipProvider>
       </QueryClientProvider>
     </AuthContext.Provider>

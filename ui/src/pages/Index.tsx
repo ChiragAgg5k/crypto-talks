@@ -32,8 +32,9 @@ const Index = () => {
           </h1>
 
           <p className="text-crypto-gray text-lg md:text-xl max-w-2xl mx-auto animate-fade-up [animation-delay:200ms] [text-wrap:balance]">
-            Your AI-powered crypto companion. Get real-time insights, market
-            analysis, and predictions for any cryptocurrency.
+            {user
+              ? `Hello, ${user.name.split(" ")[0]}! Let's get you talking about crypto, to crypto.`
+              : "Your AI-powered crypto companion. Get real-time insights, market analysis, and predictions for any cryptocurrency."}
           </p>
 
           <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px]">
