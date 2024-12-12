@@ -13,6 +13,24 @@ interface Coin {
   current_price: number;
   market_cap: number;
   total_volume: number;
+  market_cap_rank: number;
+  fully_diluted_valuation: number;
+  high_24h: number;
+  low_24h: number;
+  price_change_24h: number;
+  price_change_percentage_24h: number;
+  market_cap_change_24h: number;
+  market_cap_change_percentage_24h: number;
+  circulating_supply: number;
+  total_supply: number;
+  max_supply: number;
+  ath: number;
+  ath_change_percentage: number;
+  ath_date: string;
+  atl: number;
+  atl_change_percentage: number;
+  atl_date: string;
+  last_updated: string;
 }
 
 export const FeaturedCoins = () => {
@@ -20,7 +38,7 @@ export const FeaturedCoins = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { data: coins } = useQuery({
+  const { data: coins, isLoading } = useQuery({
     queryKey: ["featured-coins", searchQuery],
     queryFn: async () => {
       // If there's no search query, fetch top coins
@@ -32,16 +50,17 @@ export const FeaturedCoins = () => {
       }
 
       // If there's a search query, search for coins
-      const response = await fetch(
+      const searchResponse = await fetch(
         `https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(searchQuery)}`,
       );
-      const searchResults = await response.json();
+      const searchResults = await searchResponse.json();
 
       // Fetch detailed market data for the found coins
       const coinIds = searchResults.coins
         .slice(0, 6)
-        .map((coin: any) => coin.id)
+        .map((coin: { id: string }) => coin.id)
         .join(",");
+
       if (!coinIds) return [];
 
       const marketDataResponse = await fetch(
@@ -49,6 +68,8 @@ export const FeaturedCoins = () => {
       );
       return marketDataResponse.json() as Promise<Coin[]>;
     },
+    // Add a staleTime to prevent unnecessary refetches
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 
   const handleCoinClick = (coin: Coin) => {
@@ -67,45 +88,55 @@ export const FeaturedCoins = () => {
           className="max-w-md glass-card border-white/10 bg-crypto-card/30 text-white placeholder:text-crypto-gray"
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {coins?.map((coin) => (
-            <div
-              key={coin.id}
-              className="glass-card p-4 animate-fade-up cursor-pointer hover:scale-[1.02] transition-transform"
-              onClick={() => handleCoinClick(coin)}
-            >
-              <div className="flex items-center gap-3 mb-3">
-                <img src={coin.image} alt={coin.name} className="w-8 h-8" />
-                <div>
-                  <h3 className="font-medium">{coin.name}</h3>
-                  <p className="text-sm text-crypto-gray uppercase">
-                    {coin.symbol}
-                  </p>
-                </div>
+        {isLoading ? (
+          <div className="text-center text-white">Loading...</div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {coins?.length === 0 ? (
+              <div className="text-center text-white col-span-full">
+                No coins found
               </div>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-crypto-gray">Price</span>
-                  <span className="font-medium">
-                    ${coin.current_price.toLocaleString()}
-                  </span>
+            ) : (
+              coins?.map((coin) => (
+                <div
+                  key={coin.id}
+                  className="glass-card p-4 animate-fade-up cursor-pointer hover:scale-[1.02] transition-transform"
+                  onClick={() => handleCoinClick(coin)}
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <img src={coin.image} alt={coin.name} className="w-8 h-8" />
+                    <div>
+                      <h3 className="font-medium">{coin.name}</h3>
+                      <p className="text-sm text-crypto-gray uppercase">
+                        {coin.symbol}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-crypto-gray">Price</span>
+                      <span className="font-medium">
+                        ${coin.current_price.toLocaleString()}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-crypto-gray">Market Cap</span>
+                      <span className="font-medium">
+                        ${(coin.market_cap / 1e9).toFixed(2)}B
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-crypto-gray">Volume (24h)</span>
+                      <span className="font-medium">
+                        ${(coin.total_volume / 1e6).toFixed(2)}M
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-crypto-gray">Market Cap</span>
-                  <span className="font-medium">
-                    ${(coin.market_cap / 1e9).toFixed(2)}B
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-crypto-gray">Volume (24h)</span>
-                  <span className="font-medium">
-                    ${(coin.total_volume / 1e6).toFixed(2)}M
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+              ))
+            )}
+          </div>
+        )}
       </div>
 
       <CoinDialog

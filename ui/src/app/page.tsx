@@ -36,12 +36,29 @@ const Index = () => {
             <h1 className="text-4xl md:text-7xl font-bold crypto-gradient bg-clip-text text-transparent animate-fade-up [text-wrap:balance]">
               Crypto Talks
             </h1>
-
+            {/* 
             <p className="text-crypto-gray text-lg md:text-xl max-w-2xl mx-auto animate-fade-up [animation-delay:200ms] [text-wrap:balance]">
               {user.current
-                ? `Hello, ${user.current.name.split(" ")[0]}! Let's get you talking about crypto, to crypto.`
+                ? `Hello, ${
+                  user.current.name.split(" ")[0]
+                }! Let's get you talking about crypto, to crypto.`
                 : "Your AI-powered crypto companion. Get real-time insights, market analysis, and predictions for any cryptocurrency."}
-            </p>
+            </p> */}
+            {user.current ? (
+              <p className="text-crypto-gray text-lg md:text-xl max-w-2xl mx-auto animate-fade-up [animation-delay:200ms] [text-wrap:balance]">
+                Hello,{" "}
+                <span className="text-white">
+                  {user.current.name.split(" ")[0]}!
+                </span>{" "}
+                Let's get you talking about crypto. You can start by asking any
+                question about crypto from our agent below.
+              </p>
+            ) : (
+              <p className="text-crypto-gray text-lg md:text-xl max-w-2xl mx-auto animate-fade-up [animation-delay:200ms] [text-wrap:balance]">
+                Your AI-powered crypto companion. Get real-time insights, market
+                analysis, and predictions for any cryptocurrency.
+              </p>
+            )}
 
             <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px]">
               <div className="absolute inset-0 bg-crypto-purple/5 rounded-full blur-[100px]" />

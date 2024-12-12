@@ -45,7 +45,7 @@ export const PriceChart = ({ className }: PriceChartProps) => {
         );
         if (!response.ok) {
           const errorMessage = await response.text();
-          throw new Error(`Failed to fetch coin data: ${errorMessage}`);
+          console.error("Error fetching coin data:", errorMessage);
         }
         const data = await response.json();
         return data.prices.map((item: [number, number]) => ({

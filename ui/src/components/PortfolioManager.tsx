@@ -34,8 +34,6 @@ export const PortfolioManager = () => {
     enabled: !!user?.current?.userId,
   });
 
-  console.log("user", user);
-
   const mutation = useMutation({
     mutationFn: (newHoldings: Holding[]) =>
       saveHoldings(user?.current?.userId!, newHoldings),
