@@ -29,7 +29,7 @@ export function useUser() {
   return useContext(UserContext);
 }
 
-export function AuthProvider(props: React.PropsWithChildren<{}>) {
+export function AuthProvider(props: React.PropsWithChildren<unknown>) {
   const [user, setUser] = useState<Session | null>(null);
   const router = useRouter();
 
@@ -69,7 +69,11 @@ export function AuthProvider(props: React.PropsWithChildren<{}>) {
 
   async function init() {
     try {
-      const loggedIn = (await account.get()) as unknown as any;
+      const loggedIn = (await account.get()) as unknown as {
+        $id: string;
+        name: string;
+        email: string;
+      };
       const user = await account.get();
 
       setUser({
@@ -78,6 +82,7 @@ export function AuthProvider(props: React.PropsWithChildren<{}>) {
         email: user.email,
       });
     } catch (err) {
+      console.log("Error initializing user:", err);
       setUser(null);
     }
   }
