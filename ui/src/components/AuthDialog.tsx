@@ -27,10 +27,10 @@ export const AuthDialog = () => {
   const [showPortfolio, setShowPortfolio] = useState(false);
 
   useEffect(() => {
-    if (user) {
+    if (user.current) {
       setShowPortfolio(true);
     }
-  }, [user]);
+  }, [user.current]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

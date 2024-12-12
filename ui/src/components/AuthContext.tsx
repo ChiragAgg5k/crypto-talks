@@ -7,8 +7,8 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 type Session = {
   userId: string;
-  provider: string;
   name: string;
+  email: string;
 };
 
 const UserContext = createContext<{
@@ -38,12 +38,13 @@ export function AuthProvider(props: React.PropsWithChildren<{}>) {
       email,
       password,
     );
+
     const user = await account.get();
 
     setUser({
       userId: loggedIn.userId,
-      provider: loggedIn.provider,
       name: user.name,
+      email: user.email,
     });
     window.location.replace("/dashboard");
   }
@@ -68,8 +69,14 @@ export function AuthProvider(props: React.PropsWithChildren<{}>) {
 
   async function init() {
     try {
-      const loggedIn = (await account.get()) as unknown as Session;
-      setUser(loggedIn);
+      const loggedIn = (await account.get()) as unknown as any;
+      const user = await account.get();
+
+      setUser({
+        userId: loggedIn.$id,
+        name: user.name,
+        email: user.email,
+      });
     } catch (err) {
       setUser(null);
     }

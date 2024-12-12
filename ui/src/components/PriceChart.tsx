@@ -44,7 +44,8 @@ export const PriceChart = ({ className }: PriceChartProps) => {
           `https://api.coingecko.com/api/v3/coins/${selectedCoin}/market_chart?vs_currency=usd&days=30&interval=daily`,
         );
         if (!response.ok) {
-          throw new Error("Failed to fetch coin data");
+          const errorMessage = await response.text();
+          throw new Error(`Failed to fetch coin data: ${errorMessage}`);
         }
         const data = await response.json();
         return data.prices.map((item: [number, number]) => ({
