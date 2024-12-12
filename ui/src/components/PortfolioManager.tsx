@@ -1,4 +1,3 @@
-import { useAuth } from "@/App";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,10 +9,11 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/components/ui/use-toast";
 import { getHoldings, saveHoldings } from "@/lib/appwrite";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import { toast } from "sonner";
+import { useUser } from "./AuthContext";
 
 export interface Holding {
   coinId: string;
@@ -21,8 +21,7 @@ export interface Holding {
 }
 
 export const PortfolioManager = () => {
-  const { user } = useAuth();
-  const { toast } = useToast();
+  const user = useUser();
   const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
   const [holdings, setHoldings] = useState<Holding[]>([
@@ -30,27 +29,21 @@ export const PortfolioManager = () => {
   ]);
 
   const { data: existingHoldings } = useQuery({
-    queryKey: ["holdings", user?.id],
-    queryFn: () => getHoldings(user.$id),
-    enabled: !!user,
+    queryKey: ["holdings", user?.current?.userId],
+    queryFn: () => getHoldings(user?.current?.userId!),
+    enabled: !!user?.current?.userId,
   });
 
   const mutation = useMutation({
-    mutationFn: (newHoldings: Holding[]) => saveHoldings(user.$id, newHoldings),
+    mutationFn: (newHoldings: Holding[]) =>
+      saveHoldings(user?.current?.userId!, newHoldings),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["holdings"] });
-      toast({
-        title: "Success",
-        description: "Your portfolio has been updated",
-      });
+      toast.success("Your portfolio has been updated");
       setIsOpen(false);
     },
     onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to save portfolio",
-        variant: "destructive",
-      });
+      toast.error("Failed to save portfolio");
     },
   });
 

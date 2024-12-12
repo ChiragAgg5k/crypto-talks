@@ -1,4 +1,8 @@
+"use client";
+
 import { useQuery } from "@tanstack/react-query";
+import { ChevronRight } from "lucide-react";
+import { useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -7,8 +11,6 @@ import {
 } from "./ui/accordion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Skeleton } from "./ui/skeleton";
-import { useState } from "react";
-import { ChevronRight } from "lucide-react";
 
 interface NewsItem {
   id: string;

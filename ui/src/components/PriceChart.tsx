@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+"use client";
+
+import { cn } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import {
   Line,
   LineChart,
@@ -7,7 +11,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 import {
   Select,
   SelectContent,
@@ -15,8 +19,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { useQuery } from "@tanstack/react-query";
-import { useToast } from "./ui/use-toast";
 
 interface PriceChartProps {
   className?: string;
@@ -32,7 +34,6 @@ const TOP_COINS = [
 
 export const PriceChart = ({ className }: PriceChartProps) => {
   const [selectedCoin, setSelectedCoin] = useState(TOP_COINS[0].id);
-  const { toast } = useToast();
 
   const { data, isError } = useQuery({
     queryKey: ["coin-history", selectedCoin],
@@ -52,11 +53,7 @@ export const PriceChart = ({ className }: PriceChartProps) => {
         }));
       } catch (error) {
         console.error("Error fetching coin data:", error);
-        toast({
-          title: "Error",
-          description: "Could not fetch coin data. Please try again later.",
-          variant: "destructive",
-        });
+        toast.error("Could not fetch coin data. Please try again later.");
         return [];
       }
     },

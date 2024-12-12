@@ -1,4 +1,5 @@
-import { useAuth } from "@/App";
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,20 +11,20 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/components/ui/use-toast";
 import { createAccount, login, logout } from "@/lib/appwrite";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { useUser } from "./AuthContext";
 import { PortfolioManager } from "./PortfolioManager";
 
 export const AuthDialog = () => {
-  const { user } = useAuth();
+  const user = useUser();
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [showPortfolio, setShowPortfolio] = useState(false);
-  const { toast } = useToast();
 
   useEffect(() => {
     if (user) {
@@ -36,28 +37,18 @@ export const AuthDialog = () => {
     try {
       if (isLogin) {
         await login(email, password);
-        toast({
-          title: "Success",
-          description: "Logged in successfully",
-        });
+        toast.success("Logged in successfully");
       } else {
         await createAccount(email, password, name);
-        toast({
-          title: "Success",
-          description: "Account created successfully",
-        });
+        toast.success("Account created successfully");
         setShowPortfolio(true);
       }
 
       setIsOpen(false);
 
       window.location.reload();
-    } catch (error) {
-      toast({
-        title: "Authentication failed",
-        description: `${error.message}`,
-        variant: "destructive",
-      });
+    } catch (error: any) {
+      toast.error(`Authentication failed: ${error.message}`);
     }
   };
 
@@ -70,10 +61,7 @@ export const AuthDialog = () => {
             variant="outline"
             onClick={async () => {
               await logout();
-              toast({
-                title: "Success",
-                description: "Logged out successfully",
-              });
+              toast.success("Logged out successfully");
 
               window.location.reload();
             }}

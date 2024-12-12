@@ -3,10 +3,10 @@ import { Account, Client, Databases, ID, Query } from "appwrite";
 
 const client = new Client()
   .setEndpoint("https://cloud.appwrite.io/v1")
-  .setProject(import.meta.env.VITE_APPWRITE_PROJECT_ID);
+  .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID!);
 
-const account = new Account(client);
-const databases = new Databases(client);
+export const account = new Account(client);
+export const databases = new Databases(client);
 
 const DATABASE_ID = "crypto_portfolio";
 const COLLECTION_ID = "users";
