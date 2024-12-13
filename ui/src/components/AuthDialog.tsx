@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createAccount, login, logout } from "@/lib/appwrite";
+import { useCopilotReadable } from "@copilotkit/react-core";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useUser } from "./AuthContext";
@@ -51,6 +52,12 @@ export const AuthDialog = () => {
       toast.error(`Authentication failed: ${error.message}`);
     }
   };
+
+  useCopilotReadable({
+    value: user.current?.name,
+    description:
+      "The current user's name. Make sure to call them by their name from now on.",
+  });
 
   return (
     <>

@@ -8,6 +8,8 @@ import { CryptoTicker } from "@/components/CryptoTicker";
 import { FeaturedCoins } from "@/components/FeaturedCoins";
 import { PriceChart } from "@/components/PriceChart";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Github, Globe, Twitter } from "lucide-react";
+import Link from "next/link";
 
 const queryClient = new QueryClient();
 
@@ -94,7 +96,7 @@ const Index = () => {
           </div>
 
           <footer className="mt-24 glass-card p-8 animate-fade-up [animation-delay:1400ms]">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="text-left">
                 <h3 className="text-lg font-semibold crypto-gradient bg-clip-text text-transparent mb-4">
                   Crypto Talks
@@ -106,38 +108,29 @@ const Index = () => {
               </div>
 
               <div className="text-left">
-                <h4 className="text-sm font-semibold mb-4">Quick Links</h4>
-                <ul className="space-y-2 text-sm text-crypto-gray">
-                  <li>
-                    <a href="#" className="hover:text-white transition-colors">
-                      Market Analysis
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="hover:text-white transition-colors">
-                      News
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="hover:text-white transition-colors">
-                      Chat
-                    </a>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="text-left">
                 <h4 className="text-sm font-semibold mb-4">Connect</h4>
                 <div className="flex space-x-4 text-crypto-gray">
-                  <a href="#" className="hover:text-white transition-colors">
-                    Twitter
-                  </a>
-                  <a href="#" className="hover:text-white transition-colors">
-                    Discord
-                  </a>
-                  <a href="#" className="hover:text-white transition-colors">
-                    GitHub
-                  </a>
+                  <Link
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://www.chiragaggarwal.tech/"
+                  >
+                    <Globe className="hover:text-white transition-all duration-300" />
+                  </Link>
+                  <Link
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://github.com/ChiragAgg5k"
+                  >
+                    <Github className="hover:text-white transition-all duration-300" />
+                  </Link>
+                  <Link
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://x.com/ChiragAgg5k"
+                  >
+                    <Twitter className="hover:text-white transition-all duration-300" />
+                  </Link>
                 </div>
               </div>
             </div>

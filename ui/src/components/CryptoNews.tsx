@@ -1,5 +1,6 @@
 "use client";
 
+import { useCopilotReadable } from "@copilotkit/react-core";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronRight } from "lucide-react";
 import { useState } from "react";
@@ -12,6 +13,7 @@ import {
 } from "./ui/accordion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Skeleton } from "./ui/skeleton";
+
 interface NewsItem {
   id: string;
   guid: string;
@@ -79,6 +81,12 @@ export const CryptoNews = () => {
     fetchArticleSummary(item.body);
   };
 
+  useCopilotReadable({
+    value: news,
+    description:
+      "The list of news articles about cryptocurrencies. This list is updated every 5 minutes. The list contains the title, source, and a summary of the article.",
+  });
+
   if (error) {
     console.error("Error fetching news:", error);
     return (
@@ -110,18 +118,23 @@ export const CryptoNews = () => {
             value={item.id}
             className="glass-card border-none"
           >
-            <AccordionTrigger className="px-4 py-3 hover:no-underline group">
+            <AccordionTrigger className="px-4 py-3 hover:no-underline group transition-colors duration-300 ease-in-out">
               <div className="flex items-center gap-4 text-left">
-                <ChevronRight className="h-4 w-4 shrink-0 text-crypto-purple transition-transform duration-200 group-data-[state=open]:rotate-90" />
+                <ChevronRight className="h-4 w-4 shrink-0 text-crypto-purple transition-transform duration-300 ease-in-out group-data-[state=open]:rotate-90" />
                 <div>
-                  <h3 className="font-medium group-hover:text-crypto-purple transition-colors">
+                  <h3 className="font-medium group-hover:text-crypto-purple transition-colors duration-300">
                     {item.title}
                   </h3>
                   <p className="text-xs text-crypto-gray">{item.source}</p>
                 </div>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="px-4 pb-3">
+            <AccordionContent
+              className="px-4 pb-3 
+                data-[state=open]:animate-accordion-down 
+                data-[state=closed]:animate-accordion-up
+                overflow-hidden"
+            >
               <div className="space-y-4">
                 <p className="text-sm text-crypto-gray line-clamp-3">
                   {item.body}

@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { useCopilotReadable } from "@copilotkit/react-core";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import {
@@ -58,6 +59,12 @@ export const PriceChart = ({ className }: PriceChartProps) => {
         return [];
       }
     },
+  });
+
+  useCopilotReadable({
+    value: data,
+    description:
+      "The price history of the selected coin over the last 30 days. The data is an array of objects with timestamp and price properties.",
   });
 
   return (

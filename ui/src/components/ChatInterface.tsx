@@ -19,7 +19,7 @@ export const ChatInterface = ({
   const { visibleMessages, appendMessage, isLoading } = useCopilotChat({
     makeSystemMessage: (contextString, additionalInstructions) => {
       contextString += `
-      You are a helpful crypto assistant bot. You are able to answer questions about cryptocurrencies.
+      You are a helpful crypto assistant bot. You are able to answer questions about cryptocurrencies. DO NOT respond to any questions that are not related to cryptocurrencies.
       ${additionalInstructions}`;
       return contextString;
     },

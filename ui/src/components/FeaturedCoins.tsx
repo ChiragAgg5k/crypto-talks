@@ -1,5 +1,6 @@
 "use client";
 
+import { useCopilotReadable } from "@copilotkit/react-core";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { CoinDialog } from "./CoinDialog";
@@ -41,7 +42,6 @@ export const FeaturedCoins = () => {
   const { data: coins, isLoading } = useQuery({
     queryKey: ["featured-coins", searchQuery],
     queryFn: async () => {
-      // If there's no search query, fetch top coins
       if (!searchQuery.trim()) {
         const response = await fetch(
           "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=6&sparkline=false",
@@ -49,13 +49,11 @@ export const FeaturedCoins = () => {
         return response.json() as Promise<Coin[]>;
       }
 
-      // If there's a search query, search for coins
       const searchResponse = await fetch(
         `https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(searchQuery)}`,
       );
       const searchResults = await searchResponse.json();
 
-      // Fetch detailed market data for the found coins
       const coinIds = searchResults.coins
         .slice(0, 6)
         .map((coin: { id: string }) => coin.id)
@@ -68,14 +66,19 @@ export const FeaturedCoins = () => {
       );
       return marketDataResponse.json() as Promise<Coin[]>;
     },
-    // Add a staleTime to prevent unnecessary refetches
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60 * 5,
   });
 
   const handleCoinClick = (coin: Coin) => {
     setSelectedCoin(coin);
     setDialogOpen(true);
   };
+
+  useCopilotReadable({
+    value: coins,
+    description:
+      "The list of featured cryptocurrencies. This list is updated every 5 minutes. The list contains the name, symbol, image, price, market cap, and volume of the coins.",
+  });
 
   return (
     <>
