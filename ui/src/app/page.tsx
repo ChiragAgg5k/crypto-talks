@@ -38,14 +38,6 @@ const Index = () => {
             <h1 className="text-4xl md:text-7xl font-bold crypto-gradient bg-clip-text text-transparent animate-fade-up [text-wrap:balance]">
               Crypto Talks
             </h1>
-            {/* 
-            <p className="text-crypto-gray text-lg md:text-xl max-w-2xl mx-auto animate-fade-up [animation-delay:200ms] [text-wrap:balance]">
-              {user.current
-                ? `Hello, ${
-                  user.current.name.split(" ")[0]
-                }! Let's get you talking about crypto, to crypto.`
-                : "Your AI-powered crypto companion. Get real-time insights, market analysis, and predictions for any cryptocurrency."}
-            </p> */}
             {user.current ? (
               <p className="text-crypto-gray text-lg md:text-xl max-w-2xl mx-auto animate-fade-up [animation-delay:200ms] [text-wrap:balance]">
                 Hello,{" "}
@@ -77,7 +69,7 @@ const Index = () => {
               <PriceChart />
             </div>
             <div className="animate-fade-up [animation-delay:800ms]">
-              <ChatInterface />
+              <ChatInterface coinId={"any cryptocurrency"} />
             </div>
           </div>
 

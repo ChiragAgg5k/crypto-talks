@@ -39,12 +39,11 @@ export const CryptoNews = () => {
   } = useQuery({
     queryKey: ["crypto-news"],
     queryFn: async () => {
-      console.log("Fetching crypto news...");
       const response = await fetch(
-        "https://min-api.cryptocompare.com/data/v2/news/?lang=EN&sortOrder=popular",
+        `https://min-api.cryptocompare.com/data/v2/news/?lang=EN&sortOrder=popular&limit=${6}`,
       );
       const data = await response.json();
-      return data.Data as NewsItem[];
+      return data.Data.slice(0, 6) as NewsItem[];
     },
   });
 
@@ -82,9 +81,9 @@ export const CryptoNews = () => {
   };
 
   useCopilotReadable({
-    value: news,
+    value: news?.map((item) => item.body.slice(0, 200)),
     description:
-      "The list of news articles about cryptocurrencies. This list is updated every 5 minutes. The list contains the title, source, and a summary of the article.",
+      "The latest news about cryptocurrencies. The news is an array of objects with id, guid, imageurl, title, url, source, body, published_on, and categories.",
   });
 
   if (error) {
@@ -175,7 +174,11 @@ export const CryptoNews = () => {
               </h4>
               <div className="text-sm text-crypto-gray">
                 {isSummaryLoading ? (
-                  <Skeleton className="h-16 w-full" />
+                  <div className="animate-pulse">
+                    <div className="h-4 bg-crypto-gray/20 rounded mb-2"></div>
+                    <div className="h-4 bg-crypto-gray/20 rounded mb-2 w-11/12"></div>
+                    <div className="h-4 bg-crypto-gray/20 rounded w-10/12"></div>
+                  </div>
                 ) : (
                   <ReactMarkdown
                     components={{

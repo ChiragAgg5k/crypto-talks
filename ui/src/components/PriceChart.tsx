@@ -1,7 +1,6 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useCopilotReadable } from "@copilotkit/react-core";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import {
@@ -39,7 +38,6 @@ export const PriceChart = ({ className }: PriceChartProps) => {
   const { data, isError } = useQuery({
     queryKey: ["coin-history", selectedCoin],
     queryFn: async () => {
-      console.log(`Fetching price history for ${selectedCoin}...`);
       try {
         const response = await fetch(
           `https://api.coingecko.com/api/v3/coins/${selectedCoin}/market_chart?vs_currency=usd&days=30&interval=daily`,
@@ -59,12 +57,6 @@ export const PriceChart = ({ className }: PriceChartProps) => {
         return [];
       }
     },
-  });
-
-  useCopilotReadable({
-    value: data,
-    description:
-      "The price history of the selected coin over the last 30 days. The data is an array of objects with timestamp and price properties.",
   });
 
   return (

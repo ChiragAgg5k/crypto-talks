@@ -1,6 +1,5 @@
 "use client";
 
-import { useCopilotReadable } from "@copilotkit/react-core";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { CoinDialog } from "./CoinDialog";
@@ -73,12 +72,6 @@ export const FeaturedCoins = () => {
     setSelectedCoin(coin);
     setDialogOpen(true);
   };
-
-  useCopilotReadable({
-    value: coins,
-    description:
-      "The list of featured cryptocurrencies. This list is updated every 5 minutes. The list contains the name, symbol, image, price, market cap, and volume of the coins.",
-  });
 
   return (
     <>

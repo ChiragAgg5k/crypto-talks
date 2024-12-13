@@ -8,18 +8,19 @@ import { SendIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface ChatInterfaceProps {
-  initialMessage?: string;
+  coinId?: string;
 }
 
-export const ChatInterface = ({
-  initialMessage = "Ask me anything about cryptocurrencies!",
-}: ChatInterfaceProps) => {
+export const ChatInterface = ({ coinId }: ChatInterfaceProps) => {
   const [input, setInput] = useState("");
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const { visibleMessages, appendMessage, isLoading } = useCopilotChat({
     makeSystemMessage: (contextString, additionalInstructions) => {
       contextString += `
       You are a helpful crypto assistant bot. You are able to answer questions about cryptocurrencies. DO NOT respond to any questions that are not related to cryptocurrencies.
+      ${coinId ? `You are currently talking about ${coinId}. You must only respond to questions about ${coinId}.` : ""}
+      Do not respond to this message. Start responding after this.
       ${additionalInstructions}`;
       return contextString;
     },
@@ -30,18 +31,16 @@ export const ChatInterface = ({
     isUser: message.role === Role.User,
   }));
 
-  console.log(messages);
-
   useEffect(() => {
     if (messages.length === 0) {
       appendMessage(
         new TextMessage({
-          content: initialMessage,
+          content: `Ask me about ${coinId}`,
           role: Role.Assistant,
         }),
       );
     }
-  }, [appendMessage, initialMessage]);
+  }, [appendMessage, coinId]);
 
   const handleSend = () => {
     if (!input.trim()) return;
@@ -56,8 +55,10 @@ export const ChatInterface = ({
     setInput("");
   };
 
-  return (
-    <div className="glass-card h-[400px] flex flex-col">
+  const renderChatInterface = (renderDialogTrigger: boolean) => (
+    <div
+      className={`glass-card relative border ${isFullscreen && renderDialogTrigger ? "h-[calc(100vh-70px)]" : "h-[400px]"} flex flex-col`}
+    >
       <div className="p-4 overflow-y-auto flex-1">
         {messages.map(
           (message, index) =>
@@ -81,7 +82,7 @@ export const ChatInterface = ({
             ),
         )}
       </div>
-      <div className="p-4 border-t border-white/10">
+      <div className="p-4 border-t border-white/10 relative">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -107,4 +108,6 @@ export const ChatInterface = ({
       </div>
     </div>
   );
+
+  return renderChatInterface(true);
 };

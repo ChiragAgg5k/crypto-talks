@@ -260,9 +260,7 @@ export const CoinDialog = ({ coin, open, onOpenChange }: CoinDialogProps) => {
           <TabsContent value="chat">
             <div className="space-y-4">
               <h3 className="text-lg font-medium">Chat about {coin.name}</h3>
-              <ChatInterface
-                initialMessage={`Ask me anything about ${coin.name}!`}
-              />
+              <ChatInterface coinId={coin.id} />
             </div>
           </TabsContent>
         </Tabs>

@@ -71,9 +71,9 @@ export const PortfolioManager = () => {
   };
 
   useCopilotReadable({
-    value: holdings,
+    value: existingHoldings,
     description:
-      "User's crypto portfolio holdings. Each holding is an object with a coinId and amount.",
+      "These are the current holdings of the user's crypto portfolio. Each holding is an object with a coinId and amount.",
   });
 
   return (
