@@ -2,6 +2,8 @@
 
 ![Thumbnail](./assets/thumbnail.png)
 
+The site is live! Check it out at [https://crypto-talks-eta.vercel.app/](https://crypto-talks-eta.vercel.app/)
+
 ## Project Overview
 
 Crypto Talks is a comprehensive cryptocurrency platform designed to provide users with real-time insights, interactive tools, and intelligent analytics for the crypto ecosystem.
@@ -32,6 +34,17 @@ Crypto Talks is a comprehensive cryptocurrency platform designed to provide user
 - [![Appwrite](https://img.shields.io/badge/Appwrite-F02E65?style=for-the-badge&logo=appwrite&logoColor=white)](https://appwrite.io/)
 - [![Groq](https://img.shields.io/badge/Groq-FF6600?style=for-the-badge&logo=groq&logoColor=black)](https://groq.netlify.app/)
 - [![Langgraph](https://img.shields.io/badge/Langgraph-000000?style=for-the-badge&logo=langgraph&logoColor=white)](https://langgraph.dev/)
+
+## Langraph Integration
+
+![Langgraph](./assets/langgraph.png)
+
+The graph consists of 4 nodes:
+
+1. **Chat Node**: This node is responsible for the chatbot. It uses the Groq API to generate responses.
+2. **Prices Node**: This node is responsible for fetching the prices of the cryptocurrencies. It uses the CoinGecko API to fetch the prices.
+3. **Insights Node**: This node is responsible for fetching the insights of the cryptocurrencies.
+4. **Cryptos Node**: This special node holds the state of cryptocurrency for the user, being able to add, delete and update the cryptocurrencies in the user's portfolio.
 
 ## Getting Started
 
