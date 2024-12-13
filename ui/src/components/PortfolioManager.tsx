@@ -10,6 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { getHoldings, saveHoldings } from "@/lib/appwrite";
+import { useCopilotReadable } from "@copilotkit/react-core";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -68,6 +69,12 @@ export const PortfolioManager = () => {
     e.preventDefault();
     mutation.mutate(holdings);
   };
+
+  useCopilotReadable({
+    value: holdings,
+    description:
+      "User's crypto portfolio holdings. Each holding is an object with a coinId and amount.",
+  });
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

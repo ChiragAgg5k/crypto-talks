@@ -16,7 +16,14 @@ export const ChatInterface = ({
 }: ChatInterfaceProps) => {
   const [input, setInput] = useState("");
 
-  const { visibleMessages, appendMessage, isLoading } = useCopilotChat();
+  const { visibleMessages, appendMessage, isLoading } = useCopilotChat({
+    makeSystemMessage: (contextString, additionalInstructions) => {
+      contextString += `
+      You are a helpful crypto assistant bot. You are able to answer questions about cryptocurrencies.
+      ${additionalInstructions}`;
+      return contextString;
+    },
+  });
 
   const messages = visibleMessages.map((message: any) => ({
     text: message.content,

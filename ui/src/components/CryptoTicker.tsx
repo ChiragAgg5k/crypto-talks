@@ -4,6 +4,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useCopilotReadable } from "@copilotkit/react-core";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowDownIcon, ArrowUpIcon, InfoIcon } from "lucide-react";
 
@@ -39,6 +40,12 @@ export const CryptoTicker = () => {
       );
       return response.json() as Promise<Coin[]>;
     },
+  });
+
+  useCopilotReadable({
+    value: coins,
+    description:
+      "Top 5 trending cryptocurrencies by market cap. The coins are objects with id, symbol, name, current_price, price_change_percentage_24h, market_cap, total_volume, high_24h, and low_24h.",
   });
 
   if (isLoading) {

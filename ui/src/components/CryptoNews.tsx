@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { ChevronRight } from "lucide-react";
 import { useState } from "react";
+import ReactMarkdown from "react-markdown";
 import {
   Accordion,
   AccordionContent,
@@ -11,7 +12,6 @@ import {
 } from "./ui/accordion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Skeleton } from "./ui/skeleton";
-
 interface NewsItem {
   id: string;
   guid: string;
@@ -27,6 +27,8 @@ interface NewsItem {
 export const CryptoNews = () => {
   const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [generatedSummary, setGeneratedSummary] = useState<string | null>(null);
+  const [isSummaryLoading, setIsSummaryLoading] = useState(false);
 
   const {
     data: news,
@@ -44,9 +46,37 @@ export const CryptoNews = () => {
     },
   });
 
+  const fetchArticleSummary = async (article: string) => {
+    setIsSummaryLoading(true);
+    setGeneratedSummary(null);
+
+    try {
+      const response = await fetch("/api/generate-summary", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ article }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to generate summary");
+      }
+
+      const data = await response.json();
+      setGeneratedSummary(data.summary);
+    } catch (error) {
+      console.error("Error fetching summary:", error);
+      setGeneratedSummary("Unable to generate summary at this time.");
+    } finally {
+      setIsSummaryLoading(false);
+    }
+  };
+
   const handleNewsClick = (item: NewsItem) => {
     setSelectedNews(item);
     setIsDialogOpen(true);
+    fetchArticleSummary(item.body);
   };
 
   if (error) {
@@ -93,7 +123,9 @@ export const CryptoNews = () => {
             </AccordionTrigger>
             <AccordionContent className="px-4 pb-3">
               <div className="space-y-4">
-                <p className="text-sm text-crypto-gray">{item.body}</p>
+                <p className="text-sm text-crypto-gray line-clamp-3">
+                  {item.body}
+                </p>
                 <div className="flex gap-4">
                   <button
                     onClick={() => handleNewsClick(item)}
@@ -128,11 +160,30 @@ export const CryptoNews = () => {
               <h4 className="text-sm font-medium mb-2 text-crypto-purple">
                 AI Summary
               </h4>
-              <p className="text-sm text-crypto-gray">
-                {/* For now, we'll show a portion of the original content. 
-                    In a real implementation, this would be replaced with an AI-generated summary */}
-                {selectedNews?.body.slice(0, 200)}...
-              </p>
+              <div className="text-sm text-crypto-gray">
+                {isSummaryLoading ? (
+                  <Skeleton className="h-16 w-full" />
+                ) : (
+                  <ReactMarkdown
+                    components={{
+                      a: ({ href, children }) => (
+                        <a
+                          href={href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-crypto-purple hover:text-crypto-accent transition-colors"
+                        >
+                          {children}
+                        </a>
+                      ),
+                      p: ({ children }) => <p className="mb-2">{children}</p>,
+                    }}
+                  >
+                    {generatedSummary ||
+                      selectedNews?.body.slice(0, 200) + "..."}
+                  </ReactMarkdown>
+                )}
+              </div>
             </div>
             <div className="flex justify-between items-center text-xs text-crypto-gray">
               <span>{selectedNews?.source}</span>
