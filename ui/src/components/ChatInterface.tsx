@@ -2,8 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useCopilotChat } from "@copilotkit/react-core";
+import { Role, TextMessage } from "@copilotkit/runtime-client-gql";
 import { SendIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface ChatInterfaceProps {
   initialMessage?: string;
@@ -12,50 +14,65 @@ interface ChatInterfaceProps {
 export const ChatInterface = ({
   initialMessage = "Ask me anything about cryptocurrencies!",
 }: ChatInterfaceProps) => {
-  const [messages, setMessages] = useState<
-    Array<{ text: string; isUser: boolean }>
-  >([{ text: initialMessage, isUser: false }]);
   const [input, setInput] = useState("");
+
+  const { visibleMessages, appendMessage, isLoading } = useCopilotChat();
+
+  const messages = visibleMessages.map((message: any) => ({
+    text: message.content,
+    isUser: message.role === Role.User,
+  }));
+
+  console.log(messages);
+
+  useEffect(() => {
+    if (messages.length === 0) {
+      appendMessage(
+        new TextMessage({
+          content: initialMessage,
+          role: Role.Assistant,
+        }),
+      );
+    }
+  }, [appendMessage, initialMessage]);
 
   const handleSend = () => {
     if (!input.trim()) return;
 
-    setMessages((prev) => [...prev, { text: input, isUser: true }]);
-    setInput("");
+    appendMessage(
+      new TextMessage({
+        content: input,
+        role: Role.User,
+      }),
+    );
 
-    // Simulate AI response
-    setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          text: "Bitcoin's latest price is $95,499. It fell down from an average of $100,000, but looks like it's recovering. It's been a volatile week, but overall, it's still up 10% from last month.",
-          isUser: false,
-        },
-      ]);
-    }, 1000);
+    setInput("");
   };
 
   return (
     <div className="glass-card h-[400px] flex flex-col">
       <div className="p-4 overflow-y-auto flex-1">
-        {messages.map((message, index) => (
-          <div
-            key={index}
-            className={`mb-4 ${
-              message.isUser ? "ml-auto" : "mr-auto"
-            } max-w-[80%] animate-fade-up`}
-          >
-            <div
-              className={`p-3 rounded-lg ${
-                message.isUser
-                  ? "bg-crypto-purple text-white ml-auto"
-                  : "bg-crypto-card text-white"
-              }`}
-            >
-              {message.text}
-            </div>
-          </div>
-        ))}
+        {messages.map(
+          (message, index) =>
+            message.text.trim() && (
+              <div
+                key={index}
+                className={`mb-4 ${
+                  message.isUser ? "ml-auto" : "mr-auto"
+                } w-fit animate-fade-up`}
+              >
+                <div
+                  className={`p-3 rounded-lg ${
+                    message.isUser
+                      ? "bg-crypto-purple text-white ml-auto"
+                      : "bg-crypto-card text-white"
+                  }`}
+                >
+                  {message.text}
+                </div>
+              </div>
+            ),
+        )}
       </div>
       <div className="p-4 border-t border-white/10">
         <form
@@ -70,8 +87,13 @@ export const ChatInterface = ({
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask about any cryptocurrency..."
             className="bg-crypto-card border-white/10"
+            disabled={isLoading}
           />
-          <Button type="submit" className="crypto-gradient">
+          <Button
+            type="submit"
+            className="crypto-gradient"
+            disabled={isLoading}
+          >
             <SendIcon className="w-4 h-4" />
           </Button>
         </form>

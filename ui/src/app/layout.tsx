@@ -1,4 +1,6 @@
 import { AuthProvider } from "@/components/AuthContext";
+import { CopilotKit } from "@copilotkit/react-core";
+import "@copilotkit/react-ui/styles.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -28,7 +30,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <CopilotKit runtimeUrl="/api/copilotkit">{children}</CopilotKit>
+        </AuthProvider>
       </body>
     </html>
   );
