@@ -7,6 +7,8 @@ import { CryptoNews } from "@/components/CryptoNews";
 import { CryptoTicker } from "@/components/CryptoTicker";
 import { FeaturedCoins } from "@/components/FeaturedCoins";
 import { PriceChart } from "@/components/PriceChart";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Github, Globe, Twitter } from "lucide-react";
 import Link from "next/link";
@@ -15,6 +17,11 @@ const queryClient = new QueryClient();
 
 const Index = () => {
   const user = useUser();
+
+  const handleSubscribe = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("Subscribed");
+  };
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -88,7 +95,7 @@ const Index = () => {
           </div>
 
           <footer className="mt-24 glass-card p-8 animate-fade-up [animation-delay:1400ms]">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="text-left">
                 <h3 className="text-lg font-semibold crypto-gradient bg-clip-text text-transparent mb-4">
                   Crypto Talks
@@ -99,38 +106,61 @@ const Index = () => {
                 </p>
               </div>
 
-              <div className="text-left">
-                <h4 className="text-sm font-semibold mb-4">Connect</h4>
-                <div className="flex space-x-4 text-crypto-gray">
-                  <Link
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="https://www.chiragaggarwal.tech/"
-                  >
-                    <Globe className="hover:text-white transition-all duration-300" />
-                  </Link>
-                  <Link
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="https://github.com/ChiragAgg5k"
-                  >
-                    <Github className="hover:text-white transition-all duration-300" />
-                  </Link>
-                  <Link
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="https://x.com/ChiragAgg5k"
-                  >
-                    <Twitter className="hover:text-white transition-all duration-300" />
-                  </Link>
-                </div>
+              <div className="text-left md:col-span-2">
+                <h4 className="text-lg font-semibold mb-4">
+                  Subscribe to Crypto Updates
+                </h4>
+                <p className="text-sm text-crypto-gray mb-4">
+                  Get the latest insights, market analysis, and crypto
+                  predictions delivered to your inbox.
+                </p>
+                <form onSubmit={handleSubscribe} className="space-y-4">
+                  <div className="flex gap-4 flex-col md:flex-row">
+                    <Input
+                      type="email"
+                      name="email"
+                      placeholder="Enter your email"
+                      required
+                      className="glass-card w-full md:w-2/3 bg-crypto-card/30"
+                    />
+                    <Button
+                      type="submit"
+                      className="w-full md:w-auto crypto-gradient"
+                    >
+                      Subscribe Now
+                    </Button>
+                  </div>
+                </form>
               </div>
             </div>
 
-            <div className="mt-8 pt-8 border-t border-white/10 text-center text-sm text-crypto-gray">
+            <div className="mt-8 flex flex-col md:flex-row justify-between items-end gap-4 pt-8 border-t border-white/10 text-center text-sm text-crypto-gray">
               <p>
                 © {new Date().getFullYear()} Crypto Talks. All rights reserved.
               </p>
+              <div className="flex space-x-4 text-crypto-gray">
+                <Link
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://www.chiragaggarwal.tech/"
+                >
+                  <Globe className="hover:text-white transition-all duration-300" />
+                </Link>
+                <Link
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://github.com/ChiragAgg5k"
+                >
+                  <Github className="hover:text-white transition-all duration-300" />
+                </Link>
+                <Link
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://x.com/ChiragAgg5k"
+                >
+                  <Twitter className="hover:text-white transition-all duration-300" />
+                </Link>
+              </div>
             </div>
           </footer>
         </div>

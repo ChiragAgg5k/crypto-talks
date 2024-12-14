@@ -1,0 +1,143 @@
+{
+  "projectId": "6759b732001f3235b394",
+  "projectName": "Crypto Talks",
+  "settings": {
+    "services": {
+      "account": true,
+      "avatars": true,
+      "databases": true,
+      "locale": true,
+      "health": true,
+      "storage": true,
+      "teams": true,
+      "users": true,
+      "functions": true,
+      "graphql": true,
+      "messaging": true
+    },
+    "auth": {
+      "methods": {
+        "jwt": true,
+        "phone": true,
+        "invites": true,
+        "anonymous": true,
+        "email-otp": true,
+        "magic-url": true,
+        "email-password": true
+      },
+      "security": {
+        "duration": 31536000,
+        "limit": 0,
+        "sessionsLimit": 10,
+        "passwordHistory": 0,
+        "passwordDictionary": false,
+        "personalDataCheck": false,
+        "sessionAlerts": false,
+        "mockNumbers": []
+      }
+    }
+  },
+  "databases": [
+    {
+      "$id": "crypto_portfolio",
+      "name": "crypto_portfolio",
+      "enabled": true
+    }
+  ],
+  "collections": [
+    {
+      "$id": "users",
+      "$permissions": [
+        "create(\"users\")",
+        "read(\"users\")",
+        "update(\"users\")",
+        "delete(\"users\")"
+      ],
+      "databaseId": "crypto_portfolio",
+      "name": "users",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        {
+          "key": "user_id",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 36,
+          "default": null
+        },
+        {
+          "key": "created_at",
+          "type": "datetime",
+          "required": false,
+          "array": false,
+          "format": "",
+          "default": null
+        },
+        {
+          "key": "holdings",
+          "type": "relationship",
+          "required": false,
+          "array": false,
+          "relatedCollection": "holdings",
+          "relationType": "oneToMany",
+          "twoWay": false,
+          "twoWayKey": "6759c02a00295bb830a6",
+          "onDelete": "cascade",
+          "side": "parent"
+        }
+      ],
+      "indexes": []
+    },
+    {
+      "$id": "holdings",
+      "$permissions": [
+        "create(\"users\")",
+        "read(\"users\")",
+        "update(\"users\")",
+        "delete(\"users\")"
+      ],
+      "databaseId": "crypto_portfolio",
+      "name": "holdings",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        {
+          "key": "coinId",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 36,
+          "default": null
+        },
+        {
+          "key": "amount",
+          "type": "double",
+          "required": false,
+          "array": false,
+          "min": -1.7976931348623157e308,
+          "max": 1.7976931348623157e308,
+          "default": null
+        }
+      ],
+      "indexes": []
+    }
+  ],
+  "functions": [
+    {
+      "$id": "675d1523002e3099e617",
+      "name": "newsletter",
+      "runtime": "node-22",
+      "execute": ["any"],
+      "events": [],
+      "scopes": ["users.read"],
+      "schedule": "",
+      "timeout": 15,
+      "enabled": true,
+      "logging": true,
+      "entrypoint": "src/main.cjs",
+      "commands": "npm install",
+      "path": "functions/newsletter"
+    }
+  ]
+}

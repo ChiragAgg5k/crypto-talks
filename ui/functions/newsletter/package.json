@@ -1,0 +1,17 @@
+{
+  "name": "crypto-talks-newsletter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.cjs",
+  "type": "module",
+  "scripts": {
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "mailgun.js": "^10.2.4",
+    "node-appwrite": "^14.1.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5"
+  }
+}
