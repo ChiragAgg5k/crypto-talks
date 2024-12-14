@@ -9,18 +9,36 @@ import { FeaturedCoins } from "@/components/FeaturedCoins";
 import { PriceChart } from "@/components/PriceChart";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { saveSubscriber } from "@/lib/appwrite";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Github, Globe, Twitter } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const queryClient = new QueryClient();
 
 const Index = () => {
   const user = useUser();
 
-  const handleSubscribe = (e: React.FormEvent<HTMLFormElement>) => {
+  const [subscriberEmail, setSubscriberEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Subscribed");
+    setIsLoading(true);
+
+    try {
+      await saveSubscriber(subscriberEmail);
+
+      toast.success("Success!", {
+        description: "You are now subscribed to our newsletter.",
+      });
+    } catch (error) {
+      toast.error(`${error}`);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -121,13 +139,17 @@ const Index = () => {
                       name="email"
                       placeholder="Enter your email"
                       required
+                      disabled={isLoading}
+                      value={subscriberEmail}
+                      onChange={(e) => setSubscriberEmail(e.target.value)}
                       className="glass-card w-full md:w-2/3 bg-crypto-card/30"
                     />
                     <Button
                       type="submit"
                       className="w-full md:w-auto crypto-gradient"
+                      disabled={isLoading}
                     >
-                      Subscribe Now
+                      {isLoading ? "Subscribing..." : "Subscribe Now"}
                     </Button>
                   </div>
                 </form>

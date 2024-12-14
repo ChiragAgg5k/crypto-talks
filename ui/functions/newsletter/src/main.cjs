@@ -64,7 +64,7 @@ module.exports = async function ({ req, res, log, error }) {
     const subscribers = await database.listDocuments(
       'crypto_portfolio',
       'subscribers',
-      [sdk.Query.equal('subscribed', true)]
+      [sdk.Query.notEqual('subscribed_at', null)]
     );
     const newsletterContent = {
       subject: 'Your Monthly Newsletter',

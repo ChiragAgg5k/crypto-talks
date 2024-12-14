@@ -79,3 +79,25 @@ export const getHoldings = async (userId: string) => {
     throw error;
   }
 };
+
+export const saveSubscriber = async (email: string) => {
+  try {
+    const existingSubscriber = await databases.listDocuments(
+      DATABASE_ID,
+      "subscribers",
+      [Query.equal("email", email)],
+    );
+
+    if (existingSubscriber.documents.length > 0) {
+      throw new Error("Subscriber already exists");
+    }
+
+    await databases.createDocument(DATABASE_ID, "subscribers", ID.unique(), {
+      email: email,
+      subscribed_at: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error("Error saving subscriber:", error);
+    throw error;
+  }
+};
