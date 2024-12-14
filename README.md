@@ -35,11 +35,11 @@ Crypto Talks is a comprehensive cryptocurrency platform designed to provide user
 - [![Groq](https://img.shields.io/badge/Groq-FF6600?style=for-the-badge&logo=groq&logoColor=black)](https://groq.netlify.app/)
 - [![Langgraph](https://img.shields.io/badge/Langgraph-000000?style=for-the-badge&logo=langgraph&logoColor=white)](https://langgraph.dev/)
 
-## Langraph Integration
+## Architecture
 
-![Langgraph](./assets/langgraph.png)
+![Architecture](./assets/architecture.png)
 
-The graph consists of 4 nodes:
+The LangGraph graph consists of 4 nodes:
 
 1. **Chat Node**: This node is responsible for the chatbot. It uses the Groq API to generate responses.
 2. **Prices Node**: This node is responsible for fetching the prices of the cryptocurrencies. It uses the CoinGecko API to fetch the prices.
