@@ -8,8 +8,8 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "mailgun.js": "^10.2.4",
-    "node-appwrite": "^14.1.0"
+    "node-appwrite": "^14.1.0",
+    "resend": "^4.0.1"
   },
   "devDependencies": {
     "prettier": "^3.2.5"

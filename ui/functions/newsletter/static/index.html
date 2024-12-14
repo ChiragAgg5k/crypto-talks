@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email Contact Form</title>
+    <link rel="stylesheet" href="https://unpkg.com/@appwrite.io/pink@0" />
+    <link rel="stylesheet" href="https://unpkg.com/@appwrite.io/pink-icons@0" />
+  </head>
+  <body class="theme-dark">
+    <main class="main-content">
+      <div class="top-cover u-padding-block-end-56">
+        <div class="container">
+          <div
+            class="u-flex u-gap-16 u-flex-justify-center u-margin-block-start-16"
+          >
+            <h1 class="heading-level-1">Crypto Talks Newsletter</h1>
+            <code class="u-un-break-text"></code>
+          </div>
+          <p
+            class="body-text-1 u-normal u-margin-block-start-16"
+            style="max-width: 50rem"
+          >
+            Fill the form below to send the newsletter to the subscribers.
+          </p>
+          <form
+            class="u-flex-vertical u-gap-16 u-margin-block-start-16"
+            style="max-width: 50rem"
+            method="post"
+          >
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              required
+            />
+            <button class="button" type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+      <div id="error-message" style="display: none; color: red">
+        An error occurred while processing your request. Please try again later.
+      </div>
+      <script>
+        // Check for the 'code' query parameter in the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const errorCode = urlParams.get('code');
+
+        // Display the error message if the code is 'server-error'
+        if (errorCode === 'server-error') {
+          document.getElementById('error-message').style.display = 'block';
+        }
+      </script>
+    </main>
+  </body>
+</html>
