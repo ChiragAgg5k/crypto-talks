@@ -81,6 +81,10 @@ GROQ_API_KEY=your_groq_api_key
 npm run dev
 ```
 
+## Demo
+
+https://github.com/user-attachments/assets/f0e9c529-2e93-492d-9cec-aefac30018ff
+
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
