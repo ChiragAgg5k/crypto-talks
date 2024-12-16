@@ -34,6 +34,7 @@ Crypto Talks is a comprehensive cryptocurrency platform designed to provide user
 - [![Appwrite](https://img.shields.io/badge/Appwrite-F02E65?style=for-the-badge&logo=appwrite&logoColor=white)](https://appwrite.io/)
 - [![Groq](https://img.shields.io/badge/Groq-FF6600?style=for-the-badge&logo=groq&logoColor=black)](https://groq.netlify.app/)
 - [![Langgraph](https://img.shields.io/badge/Langgraph-000000?style=for-the-badge&logo=langgraph&logoColor=white)](https://langgraph.dev/)
+- [![Sentry](https://img.shields.io/badge/Sentry-800080?style=for-the-badge&logo=sentry&logoColor=white)](https://sentry.io/)
 
 ## Architecture
 
